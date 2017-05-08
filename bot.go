@@ -167,11 +167,11 @@ func Bot_Start() {
 			gotEventsForToday = true
 		}
 
-		foundAClass, class, isCurrentlyIn := Schedule_FindNextClass(schedule, now, currentDayNumber, classesDoneToday)
+		foundAClass, class, isCurrentlyIn, endTime := Schedule_FindNextClass(schedule, now, currentDayNumber, classesDoneToday)
 		if isCurrentlyIn {
 			classesDoneToday = append(classesDoneToday, class)
 			Bot_SetStatusToClass(class)
-			time.Sleep(class.Duration)
+			time.Sleep(endTime.Sub(time.Now()))
 			Bot_ResetStatus()
 		} else {
 			if foundAClass {
